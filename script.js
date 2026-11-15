@@ -46,6 +46,15 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
       pet_info.energy += changes.energy;
       checkAndUpdatePetInfoInHtml();
 
+      const wasUnhappy = before.happiness <= 4;
+      const isUnhappy = pet_info.happiness <= 4;
+
+      if (wasUnhappy !== isUnhappy) {
+        // jQuery's .fadeTo() animates Mango's opacity over 250 milliseconds.
+        // Mango fades to 55% opacity when unhappy and back to 100% when happier.
+        $('.pet-image').fadeTo(250, isUnhappy ? 0.55 : 1);
+      }
+
       // jQuery's .data("message") reads the clicked button's data-message attribute.
       const message = $(button).data("message");
 
@@ -64,8 +73,8 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     }
   
     function checkAndUpdatePetInfoInHtml() {
-      if (pet_info.weight < 0) {
-        pet_info.weight = 0;
+      if (pet_info.weight < 1) {
+        pet_info.weight = 1;
       }
 
       if (pet_info.happiness < 0) {
