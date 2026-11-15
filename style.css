@@ -9,8 +9,13 @@
   }
   
   main {
-    display:block;
-    height:175px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    max-width: 850px;
+    margin: 32px auto;
   }
   
   header {
@@ -45,40 +50,40 @@
     margin:5px;
   }
   
-  .pet-image {
-    height:250px;
-  }
-  
-  .dashboard div {
-    display:block;
-  }
-  
   .pet-image-container {
-    float:left;
-    padding:10px;
+    flex: 0 1 250px;
   }
-  
+
+  .pet-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .dashboard {
-    float:left;
-    padding:20px;
+    flex: 1 1 320px;
+    min-width: 0;
+    padding: 20px;
+    background-color: #fffaf2;
+    border: 1px solid #f0d7b2;
+    border-radius: 12px;
   }
-  
+
   .button-container {
-    margin-top:20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
   }
-  
+
   .button-container button {
-    width: 100px;
-      margin-right: 10px;
-      text-align: center;
-      display: inline-block;
-      float: left;
-    font-size:15px;
+    padding: 8px 14px;
+    border: 1px solid #404853;
+    border-radius: 8px;
     background-color: #1e2835;
-    border-color: #404853;
-    cursor:pointer;
-    background-image: linear-gradient(to bottom,rgba(246,246,246,.1)0%,rgba(30,40,53,0)66%);
     color: #fafafa;
+    font: inherit;
+    cursor: pointer;
   }
 
   .pet-message {
