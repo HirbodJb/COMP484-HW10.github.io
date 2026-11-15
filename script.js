@@ -7,6 +7,7 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     $('.treat-button').click(clickedTreatButton);
     $('.play-button').click(clickedPlayButton);
     $('.exercise-button').click(clickedExerciseButton);
+    $('.nap-button').click(clickedNapButton);
   
 
   
@@ -14,33 +15,68 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
   })
   
     // Add a variable "pet_info" equal to a object with the name (string), weight (number), and happiness (number) of your pet
-    var pet_info = {name:"My Pet Name", weight:"??", happiness:"??"};
+    const pet_info = { name: "Mango", weight: 8, happiness: 10, energy: 5 };
   
     function clickedTreatButton() {
-      // Increase pet happiness
-      // Increase pet weight
-      checkAndUpdatePetInfoInHtml();
+      applyPetAction(this, { weight: 1, happiness: 2, energy: 0 });
     }
-    
+
     function clickedPlayButton() {
-      // Increase pet happiness
-      // Decrease pet weight
-      checkAndUpdatePetInfoInHtml();
+      applyPetAction(this, { weight: -1, happiness: 3, energy: -1 });
     }
-    
+
     function clickedExerciseButton() {
-      // Decrease pet happiness
-      // Decrease pet weight
+      applyPetAction(this, { weight: -2, happiness: -2, energy: -1 });
+    }
+
+    function clickedNapButton() {
+      applyPetAction(this, { weight: 0, happiness: 1, energy: 3 });
+    }
+
+    function applyPetAction(button, changes) {
+      if (changes.energy < 0 && pet_info.energy === 0) {
+        $('.pet-message').text("I'm out of energy! Let me take a nap first.");
+        return;
+      }
+
+      const before = { ...pet_info };
+
+      pet_info.weight += changes.weight;
+      pet_info.happiness += changes.happiness;
+      pet_info.energy += changes.energy;
       checkAndUpdatePetInfoInHtml();
+
+      // jQuery's .data("message") reads the clicked button's data-message attribute.
+      const message = $(button).data("message");
+
+      // Compare the final stats with the starting stats so the message respects the zero limits.
+      const weightChange = formatChange(pet_info.weight - before.weight);
+      const happinessChange = formatChange(pet_info.happiness - before.happiness);
+      const energyChange = formatChange(pet_info.energy - before.energy);
+
+      $('.pet-message').text(
+        `${message} Weight ${weightChange} | Happiness ${happinessChange} | Energy ${energyChange}`
+      );
+    }
+
+    function formatChange(change) {
+      return change > 0 ? `+${change}` : String(change);
     }
   
     function checkAndUpdatePetInfoInHtml() {
-      checkWeightAndHappinessBeforeUpdating();  
+      if (pet_info.weight < 0) {
+        pet_info.weight = 0;
+      }
+
+      if (pet_info.happiness < 0) {
+        pet_info.happiness = 0;
+      }
+
+      if (pet_info.energy < 0) {
+        pet_info.energy = 0;
+      }
+
       updatePetInfoInHtml();
-    }
-    
-    function checkWeightAndHappinessBeforeUpdating() {
-      // Add conditional so if weight is lower than zero.
     }
     
     // Updates your HTML with the current values in your pet_info object
@@ -48,5 +84,6 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
       $('.name').text(pet_info['name']);
       $('.weight').text(pet_info['weight']);
       $('.happiness').text(pet_info['happiness']);
+      $('.energy').text(pet_info.energy);
     }
   
