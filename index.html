@@ -20,7 +20,6 @@
 
     <main>
       <section class="pet-image-container">
-         <!-- Replace pet image with your own pet image -->
         <img class="pet-image" src="images/Orange-Kitten.png" alt="A hound dog">
       </section>
       <section class="dashboard">
@@ -28,6 +27,7 @@
         <div>Weight: <strong><span class="weight"></span> pounds</strong></div>
         <div>Happiness: <strong><span class="happiness"></span> tail wags (per min)</strong></div>
         <div>Energy: <strong><span class="energy"></span></strong></div>
+        <!-- I use a status region so screen readers can announce Mango's reactions. -->
         <p class="pet-message" role="status"></p>
         
         <div class="button-container">
@@ -40,7 +40,7 @@
           <button type="button" class="exercise-button" data-message="Whew! I need a break.">
             Exercise
           </button>
-          <button type="button" class="nap-button" data-message="That nap felt great!"> <!-- Added this new nap functionality -->
+          <button type="button" class="nap-button" data-message="That nap felt great!">
             Nap
           </button>
         </div>
@@ -48,7 +48,7 @@
       </section>
     </main>
 
-    <!-- Your web-app is https, so your scripts need to be too -->
+    <!-- I defer script.js so jQuery can finish loading before the game starts. -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
             crossorigin="anonymous"></script>

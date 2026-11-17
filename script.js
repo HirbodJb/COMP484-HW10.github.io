@@ -1,9 +1,9 @@
-$(function() { // Makes sure that your function is called once all the DOM elements of the page are ready to be used.
+// I use jQuery's ready callback so the dashboard and buttons exist when I set up the game.
+$(function() {
     
-    // Called function to update the name, happiness, and weight of our pet in our HTML
     checkAndUpdatePetInfoInHtml();
   
-    // When each button is clicked, it will "call" function for that button (functions are below)
+    // jQuery's .click() gives me the clicked button as `this` so I can look up its reaction.
     $('.treat-button').click(clickedTreatButton);
     $('.play-button').click(clickedPlayButton);
     $('.exercise-button').click(clickedExerciseButton);
@@ -14,7 +14,6 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     
   })
   
-    // Add a variable "pet_info" equal to a object with the name (string), weight (number), and happiness (number) of your pet
     const pet_info = { name: "Mango", weight: 8, happiness: 10, energy: 5 };
   
     function clickedTreatButton() {
@@ -34,6 +33,7 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     }
 
     function applyPetAction(button, changes) {
+      // Block energy-costing actions at zero and point the player to Nap.
       if (changes.energy < 0 && pet_info.energy === 0) {
         $('.pet-message').text("I'm out of energy! Let me take a nap first.");
         return;
@@ -50,15 +50,16 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
       const isUnhappy = pet_info.happiness <= 4;
 
       if (wasUnhappy !== isUnhappy) {
-        // jQuery's .fadeTo() animates Mango's opacity over 250 milliseconds.
-        // Mango fades to 55% opacity when unhappy and back to 100% when happier.
+        // I use jQuery's .fadeTo() only when Mango crosses the low-happiness threshold.
+        // It takes 250 ms to dim the image to 55% opacity or bring it back to full opacity.
         $('.pet-image').fadeTo(250, isUnhappy ? 0.55 : 1);
       }
 
-      // jQuery's .data("message") reads the clicked button's data-message attribute.
+      // I use jQuery's .data("message") to read this button's data-message attribute.
+      // That lets me keep each of Mango's reactions with its button in the HTML.
       const message = $(button).data("message");
 
-      // Compare the final stats with the starting stats so the message respects the zero limits.
+      // Compare the stats after applying their minimums so the message shows the actual changes.
       const weightChange = formatChange(pet_info.weight - before.weight);
       const happinessChange = formatChange(pet_info.happiness - before.happiness);
       const energyChange = formatChange(pet_info.energy - before.energy);
@@ -73,6 +74,7 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     }
   
     function checkAndUpdatePetInfoInHtml() {
+      // I use one pound as the weight floor. Happiness and energy can reach zero.
       if (pet_info.weight < 1) {
         pet_info.weight = 1;
       }
@@ -88,7 +90,7 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
       updatePetInfoInHtml();
     }
     
-    // Updates your HTML with the current values in your pet_info object
+    // I use jQuery's .text() to display my pet_info values as plain text in the dashboard.
     function updatePetInfoInHtml() {
       $('.name').text(pet_info['name']);
       $('.weight').text(pet_info['weight']);

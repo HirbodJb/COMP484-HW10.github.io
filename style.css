@@ -90,6 +90,7 @@
   margin: 0;
   }
 
+  /* I only show the feedback box once Mango has a reaction to display. */
   .pet-message:not(:empty) {
     margin-top: 12px;
     padding: 10px 12px;
