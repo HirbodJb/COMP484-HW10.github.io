@@ -96,5 +96,15 @@ $(function() {
       $('.weight').text(pet_info['weight']);
       $('.happiness').text(pet_info['happiness']);
       $('.energy').text(pet_info.energy);
+
+      // I show grumpy Mango when either stat runs out.
+      const isGrumpy = pet_info.energy === 0 || pet_info.happiness === 0;
+      const petImage = document.querySelector('.pet-image');
+      const imagePath = isGrumpy ? 'images/Grumpy-Mango.png' : 'images/Orange-Kitten.png';
+
+      if (petImage.getAttribute('src') !== imagePath) {
+        petImage.src = imagePath;
+        petImage.alt = isGrumpy ? 'Mango the orange tabby kitten looking grumpy' : 'Mango the orange tabby kitten';
+      }
     }
   
