@@ -15,9 +15,20 @@ $(function() {
   })
   
     const pet_info = { name: "Mango", weight: 8, happiness: 10, energy: 5 };
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let nextPlayReaction = 0;
   
     function clickedTreatButton() {
       applyPetAction(this, { weight: 1, happiness: 2, energy: 0 });
+
+      // I skip Mango's treat hop if the player prefers less motion.
+      if (!reducedMotion.matches) {
+        document.querySelector('.pet-image').animate([
+          { transform: 'translateY(0)' },
+          { transform: 'translateY(-16px)', offset: 0.45 },
+          { transform: 'translateY(0)' }
+        ], { duration: 360, easing: 'ease-in-out' });
+      }
     }
 
     function clickedPlayButton() {
@@ -30,6 +41,14 @@ $(function() {
 
     function clickedNapButton() {
       applyPetAction(this, { weight: 0, happiness: 1, energy: 3 });
+
+      // I float the nap text up and fade it out after about a second.
+      const rise = reducedMotion.matches ? 'translateY(0)' : 'translateY(-18px)';
+      document.querySelector('.nap-effect').animate([
+        { opacity: 1, transform: 'translateY(0)' },
+        { opacity: 1, offset: 0.55 },
+        { opacity: 0, transform: rise }
+      ], { duration: 1000, easing: 'ease-out' });
     }
 
     function applyPetAction(button, changes) {
@@ -55,9 +74,15 @@ $(function() {
         $('.pet-image').fadeTo(250, isUnhappy ? 0.55 : 1);
       }
 
-      // I use jQuery's .data("message") to read this button's data-message attribute.
-      // That lets me keep each of Mango's reactions with its button in the HTML.
-      const message = $(button).data("message");
+      // I use jQuery's .data("message") to read each button's reaction from the HTML.
+      // Play stores a JSON array, so I can cycle through it after each successful play.
+      const buttonMessage = $(button).data("message");
+      let message = buttonMessage;
+
+      if (Array.isArray(buttonMessage)) {
+        message = buttonMessage[nextPlayReaction];
+        nextPlayReaction = (nextPlayReaction + 1) % buttonMessage.length;
+      }
 
       // Compare the stats after applying their minimums so the message shows the actual changes.
       const weightChange = formatChange(pet_info.weight - before.weight);
@@ -97,14 +122,21 @@ $(function() {
       $('.happiness').text(pet_info['happiness']);
       $('.energy').text(pet_info.energy);
 
-      // I show grumpy Mango when either stat runs out.
-      const isGrumpy = pet_info.energy === 0 || pet_info.happiness === 0;
+      // I use the same zero-stat checks for the mood label and the grumpy image.
+      const moods = [];
+      if (pet_info.energy === 0) moods.push('Sleepy');
+      if (pet_info.happiness === 0) moods.push('Grumpy');
+      $('.mood').text(moods.join(' and ') || 'Content');
+
+      const showGrumpyImage = moods.length > 0;
       const petImage = document.querySelector('.pet-image');
-      const imagePath = isGrumpy ? 'images/Grumpy-Mango.png' : 'images/Orange-Kitten.png';
+      const imagePath = showGrumpyImage ? 'images/Grumpy-Mango.png' : 'images/Orange-Kitten.png';
 
       if (petImage.getAttribute('src') !== imagePath) {
         petImage.src = imagePath;
-        petImage.alt = isGrumpy ? 'Mango the orange tabby kitten looking grumpy' : 'Mango the orange tabby kitten';
+        petImage.alt = showGrumpyImage
+          ? 'Mango the orange tabby kitten looking grumpy'
+          : 'Mango the orange tabby kitten';
       }
     }
   

@@ -1,50 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Your Giga Pet</title>
-    <meta name="description" content="A cool thing made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="script.js" defer></script>
+    <meta name="description" content="Take care of Mango, an orange tabby with a mischievous streak.">
+    <title>Mango | Giga Pet</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
   </head>
-
   <body>
-    <header>
-      <h1>
-        This is your Giga Pet
-      </h1>
+    <header class="page-header">
+      <h1>Giga Pet</h1>
     </header>
 
-    <main>
-      <section class="pet-image-container">
-        <img class="pet-image" src="images/Orange-Kitten.png" alt="Mango the orange tabby kitten">
-      </section>
-      <section class="dashboard">
-        <div>Name: <strong><span class="name"></span></strong></div>
-        <div>Weight: <strong><span class="weight"></span> pounds</strong></div>
-        <div>Happiness: <strong><span class="happiness"></span> tail wags (per min)</strong></div>
-        <div>Energy: <strong><span class="energy"></span></strong></div>
-        <!-- I use a status region so screen readers can announce Mango's reactions. -->
-        <p class="pet-message" role="status"></p>
-        
-        <div class="button-container">
-          <button type="button" class="treat-button" data-message="Yum! That was delicious.">
-            Treat
-          </button>
-          <button type="button" class="play-button" data-message="That was fun! Let's play again.">
-            Play
-          </button>
-          <button type="button" class="exercise-button" data-message="Whew! I need a break.">
-            Exercise
-          </button>
-          <button type="button" class="nap-button" data-message="That nap felt great!">
-            Nap
-          </button>
+    <main class="pet-game">
+      <div class="pet-image-container">
+        <img class="pet-image" src="images/Orange-Kitten.png" width="1254" height="1254"
+             alt="Mango the orange tabby kitten">
+        <span class="nap-effect" aria-hidden="true">zZz</span>
+      </div>
+
+      <section class="dashboard" aria-labelledby="pet-name">
+        <div class="pet-heading">
+          <h2 class="name" id="pet-name"></h2>
+          <div class="mood-badge">Mood <strong class="mood"></strong></div>
         </div>
 
+        <dl class="pet-stats">
+          <div>
+            <dt>Weight</dt>
+            <dd><span class="weight"></span><span class="stat-unit">pounds</span></dd>
+          </div>
+          <div>
+            <dt>Happiness</dt>
+            <dd><span class="happiness"></span><span class="stat-unit">tail wags/min</span></dd>
+          </div>
+          <div>
+            <dt>Energy</dt>
+            <dd class="energy"></dd>
+          </div>
+        </dl>
+
+        <div class="button-container">
+          <button type="button" class="treat-button" data-message="Yum! That was delicious.">Treat</button>
+          <button type="button" class="play-button"
+                  data-message='["That was fun! Let&#39;s play again.", "I caught the feather!", "The toy mouse started it."]'>Play</button>
+          <button type="button" class="exercise-button" data-message="Whew! I need a break.">Exercise</button>
+          <button type="button" class="nap-button" data-message="That nap felt great!">Nap</button>
+        </div>
+
+        <!-- I use a status region so screen readers can announce Mango's reactions. -->
+        <p class="pet-message" role="status"></p>
       </section>
     </main>
 
