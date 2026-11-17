@@ -99,6 +99,9 @@ h1 {
 }
 
 .mood-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
   padding: 4px 10px;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -108,7 +111,6 @@ h1 {
 }
 
 .mood-badge strong {
-  margin-left: 4px;
   color: var(--ink);
 }
 
@@ -121,25 +123,22 @@ h1 {
 
 .pet-stats div {
   min-width: 0;
-  padding: 10px 8px;
+  padding: 12px clamp(8px, 1.4vw, 14px);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--page);
 }
 
-.pet-stats dt,
-.stat-unit {
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-
 .pet-stats dt {
-  font-weight: 600;
+  color: var(--muted);
+  font-size: clamp(0.78rem, 2.85vw, 0.9rem);
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .pet-stats dd {
-  margin: 4px 0 0;
-  font-size: 1.65rem;
+  margin: 6px 0 0;
+  font-size: clamp(1.65rem, 4vw, 2.125rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
@@ -149,6 +148,8 @@ h1 {
 .stat-unit {
   display: block;
   margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
   font-weight: 400;
   line-height: 1.3;
 }
